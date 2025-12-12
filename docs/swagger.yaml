@@ -1,0 +1,57 @@
+definitions:
+  models.Deployment:
+    properties:
+      deploymentTime:
+        type: string
+      id:
+        type: string
+      message:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /addDeployment:
+    post:
+      consumes:
+      - application/json
+      description: Create a new deployment
+      parameters:
+      - description: Deployment object
+        in: body
+        name: deployment
+        required: true
+        schema:
+          $ref: '#/definitions/models.Deployment'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Deployment'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Add new deployment
+      tags:
+      - deployments
+  /deployments:
+    get:
+      description: Get list of all deployments
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Deployment'
+            type: array
+      summary: Get all deployments
+      tags:
+      - deployments
+swagger: "2.0"

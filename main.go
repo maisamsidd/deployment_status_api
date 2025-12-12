@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+	_ "github.com/maisam9060/deployment_status/docs"
 	"github.com/maisam9060/deployment_status/routes"
 )
 
