@@ -4,6 +4,8 @@ go 1.25.5
 
 require github.com/gin-gonic/gin v1.11.0
 
+require github.com/gin-contrib/cors v1.7.6 // indirect
+
 require (
 	github.com/KyleBanks/depth v1.2.1 // indirect
 	github.com/PuerkitoBio/purell v1.2.1 // indirect

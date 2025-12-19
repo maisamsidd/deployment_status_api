@@ -14,4 +14,6 @@ func SetupRoutes(router *gin.Engine) {
 	// API routes
 	router.GET("/deployments", controllers.GetDeployments)
 	router.POST("/addDeployment", controllers.PostDeployment)
+	router.GET("/deploymentbyid/:id", controllers.GetDeploymentsById)
+
 }

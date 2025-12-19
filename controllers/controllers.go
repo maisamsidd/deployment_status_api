@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"errors"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -29,13 +30,38 @@ func GetDeployments(c *gin.Context) {
 // @Router /addDeployment [post]
 func PostDeployment(c *gin.Context) {
 	var newDeployment models.Deployment
-	err := c.BindJSON(&newDeployment)
 
-	if err != nil {
-		c.IndentedJSON(http.StatusNotFound, gin.H{"message": "Invalid JSON"})
+	if err := c.BindJSON(&newDeployment); err != nil {
+		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": "Invalid JSON"})
 		return
 	}
 
-	models.Deployments = append(models.Deployments, newDeployment)
+	// Insert at 0th index (latest first)
+	models.Deployments = append(
+		[]models.Deployment{newDeployment},
+		models.Deployments...,
+	)
+
 	c.IndentedJSON(http.StatusCreated, newDeployment)
+}
+
+func getDeploymentId(id string) (*models.Deployment, error) {
+
+	for i, d := range models.Deployments {
+		if d.Id == id {
+			return &models.Deployments[i], nil
+		}
+	}
+	return nil, errors.New("invalid id")
+
+}
+
+func GetDeploymentsById(c *gin.Context) {
+	id := c.Param("id")
+	deployment, err := getDeploymentId(id)
+	if err != nil {
+		c.IndentedJSON(http.StatusNotFound, gin.H{"message": "deployment not found"})
+		return
+	}
+	c.IndentedJSON(http.StatusOK, deployment)
 }

@@ -1,0 +1,8 @@
+services:
+  deploymentstatusapi:
+    image: harbor.qbscocloud.net:30003/deployment-status/deployment-status/go-deployment-status
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - 3000:3000
